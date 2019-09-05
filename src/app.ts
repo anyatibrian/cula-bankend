@@ -1,6 +1,10 @@
 import bodyParser from 'body-parser'
+import { errors } from 'celebrate'
 import express, { Express, Request, Response } from 'express'
 import morgan from 'morgan'
+import { UserRoutes } from './resources/userAuth/user.routes'
+
+const prefix = '/api/v1/'
 
 // setting up the application
 const app: Express = express()
@@ -14,4 +18,7 @@ app.get('/', (req: Request, res: Response) => {
     message: 'your welcome to the app',
   })
 })
+// the users routes
+app.use(`${prefix}users`, UserRoutes)
+app.use(errors())
 export default app
