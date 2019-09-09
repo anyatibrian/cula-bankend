@@ -1,4 +1,5 @@
 import * as Sequelize from 'sequelize'
+import { SequelizeAttributes } from '../../types/types'
 export interface UserAttributes {
   id?: number
   saccoName: string
@@ -29,11 +30,11 @@ export const userInit = (sequelize: Sequelize.Sequelize): UserModel => {
       allowNull: false,
     },
     contactNo: {
-      type: Sequelize.NUMBER,
+      type: Sequelize.DECIMAL,
       allowNull: false,
     },
     pin: {
-      type: Sequelize.NUMBER,
+      type: Sequelize.DECIMAL,
       allowNull: false,
     },
     isActive: {
@@ -52,8 +53,12 @@ export const userInit = (sequelize: Sequelize.Sequelize): UserModel => {
       defaultValue: Date.now,
     },
   }
-  const users = sequelize.define<userInstance, UserAttributes>('Users', attribute, {
-    tableName: 'users',
-  })
+  const users = sequelize.define<userInstance, UserAttributes>(
+    'Users',
+    attribute,
+    {
+      tableName: 'Users',
+    },
+  )
   return users
 }
