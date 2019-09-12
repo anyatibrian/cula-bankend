@@ -1,6 +1,6 @@
 import { celebrate } from 'celebrate'
 import { Router } from 'express'
-import { checkUserExist } from '../../middleware/checkUserExist'
+import { checkUserExist } from '../../middleware/checkUser.middleware'
 import User from './user.controller'
 import { ValidateUserSchema } from './userReg.validate'
 const user: User = new User()

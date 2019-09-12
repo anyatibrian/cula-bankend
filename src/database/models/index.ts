@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize'
+import { ProfileInit } from './profiles.models'
 import { userInit } from './users.model'
 const env = process.env.NODE_ENV || 'development'
 const config = require(__dirname + '/../config.json')[env]
@@ -8,6 +9,7 @@ const db = {
   Sequelize,
   sequelize,
   User: userInit(sequelize),
+  SaccoProfile: ProfileInit(sequelize),
 }
 Object.values(db).forEach((model: any) => {
   if (model.associate) {

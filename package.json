@@ -9,8 +9,11 @@
   "dependencies": {
     "all": "^0.0.0",
     "body-parser": "^1.19.0",
+    "concurrently": "^4.1.2",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
+    "global": "^4.4.0",
+    "lite-server": "^2.5.4",
     "morgan": "^1.9.1",
     "nodemon": "^1.19.1",
     "passport-jwt": "^4.0.0",
@@ -27,37 +30,79 @@
     "start": " node ./dist/server.js",
     "start-dev": "ts-node ./src/server/server.ts",
     "build-dev": "tsc && npm start",
-    "dev": "nodemon  --exec babel-node -e ts -w ./src -x npm run start-dev",
-    "test": "cross-env NODE_ENV=test npm run reset:db && NODE_ENV=test nyc --reporter=html --reporter=text mocha --require @babel/polyfill -r ts-node/register src/*/**/**/*spec.ts src/*/**/*.spec.ts src/**/*.spec.ts --timeout 20000 --exit",
-    "test:seed": "NODE_ENV=test npm run reset:db && NODE_ENV=test nyc --reporter=html --reporter=text mocha --require @babel/polyfill --require @babel/register ./dist --timeout 10000 --exit",
-    "sequelize": "./node_modules/.bin/babel-node ./node_modules/.bin/sequelize $*",
-    "migrate": "./node_modules/.bin/babel-node ./node_modules/.bin/sequelize db:migrate",
-    "reset:seeds": "npm run sequelize db:seed:undo:all && npm run sequelize db:seed:all",
-    "reset:db": "npm run dropMeta && npm run sequelize db:migrate:undo:all && npm run sequelize db:migrate && npm run reset:seeds",
-    "build": "rm -rf dist && tsc && npm run reset:db && cp -r ./src/templates ./dist/templates",
-    "lint": "tsc --noEmit && eslint 'src/*/**/*.{js,ts,tsx}' --quiet --fix",
-    "coverage": "nyc report --reporter=text-lcov|coveralls",
-    "dropMeta": "ts-node src/database/other.ts"
+    "dev": "nodemon  --exec babel-node -e ts -w ./src -x npm run start-dev"
+  },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "**/*.spec.ts",
+      "coverage",
+      "dist",
+      "src/database/migrations",
+      "src/database/seeders",
+      "src/database/other.ts"
+    ],
+    "reporter": [
+      "html"
+    ],
+    "all": true
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules"
+    ],
+    "watch": [
+      "src"
+    ],
+    "exec": "npm run start-dev",
+    "ext": "ts"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "git add"
+    ]
   },
   "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
+    "@babel/core": "^7.6.0",
     "@babel/node": "^7.5.5",
     "@babel/plugin-transform-runtime": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-env": "^7.6.0",
+    "@types/bcrypt": "^3.0.0",
+    "@types/chai": "^4.2.2",
+    "@types/chai-http": "^4.2.0",
     "@types/dotenv": "^6.1.1",
     "@types/express": "^4.17.1",
+    "@types/hapi__joi": "^15.0.4",
     "@types/jsonwebtoken": "^8.3.3",
+    "@types/mocha": "^5.2.7",
     "@types/morgan": "^1.7.37",
+    "@types/multer": "^1.3.9",
     "@types/node": "^8.5.2",
     "@types/passport": "^1.0.1",
     "@types/passport-jwt": "^3.0.1",
     "@types/passport-local": "^1.0.33",
     "@types/sequelize": "^4.28.3",
     "@types/typescript": "^2.0.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "bcrypt": "^3.0.6",
     "celebrate": "^10.0.1",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "cross-env": "^5.2.1",
     "husky": "^3.0.4",
     "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^2.2.0",
+    "mocha": "^6.2.0",
+    "multer": "^1.4.2",
+    "nyc": "^14.1.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "pg": "^7.12.1",
@@ -66,6 +111,6 @@
     "tslint-config-airbnb": "^5.11.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.6.2"
+    "typescript": "^3.6.3"
   }
 }

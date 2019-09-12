@@ -7,6 +7,7 @@ export interface UserAttributes {
   contactNo: number
   pin: number
   isActive: boolean
+  role?: string
   createdAt?: string
   updatedAt?: string
 }
@@ -17,9 +18,9 @@ export const userInit = (sequelize: Sequelize.Sequelize): UserModel => {
   const attribute: SequelizeAttributes<UserAttributes> = {
     id: {
       allowNull: false,
-      autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: Sequelize.UUID,
+      defaultValue: Sequelize.UUIDV4,
     },
     saccoName: {
       type: Sequelize.STRING,
@@ -35,6 +36,11 @@ export const userInit = (sequelize: Sequelize.Sequelize): UserModel => {
     },
     pin: {
       type: Sequelize.DECIMAL,
+      allowNull: false,
+    },
+    role: {
+      type: Sequelize.STRING,
+      defaultValue: 'user',
       allowNull: false,
     },
     isActive: {
@@ -57,8 +63,15 @@ export const userInit = (sequelize: Sequelize.Sequelize): UserModel => {
     'Users',
     attribute,
     {
-      tableName: 'Users',
+      tableName: 'users',
     },
   )
+  users.associate = model => {
+    users.hasOne(model.SaccoProfile, {
+      foreignKey: 'saccoId',
+      as: 'saccoProfile',
+      onDelete: 'CASCADE',
+    })
+  }
   return users
 }

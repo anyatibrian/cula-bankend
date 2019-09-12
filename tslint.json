@@ -13,7 +13,8 @@
         "variable-name": false,
         "import-name": false,
         "no-var-requires": false,
-        "prefer-template": false
+        "prefer-template": false,
+        "object-shorthand-properties-first": false
     },
     "rulesDirectory": ["tslint-config-prettier"]
 }

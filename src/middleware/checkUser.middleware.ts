@@ -6,7 +6,7 @@ import db from '../database/models'
 export const checkUserExist = async (
   req: Request,
   res: Response,
-  next: any, 
+  next: any,
 ) => {
   const { email, saccoName, contactNo } = req.body
   const userExist = await db.User.findOne({

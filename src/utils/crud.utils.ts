@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import { Op } from 'sequelize'
 import db from '../database/models'
 class CrudController {
-  public model: string = ''
+  public model: string | any = ''
   // method for getting all the models created
   public getAllModellInformation = async (
     req: Request,
